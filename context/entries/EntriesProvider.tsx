@@ -23,20 +23,18 @@ export const EntriesProvider:FC<Prop> = ({ children }) => {
 
    const addNewEntry = async (description: string) => {
       
-      // const newEntry: Entry = {
-      //    _id: uuidv4(),
-      //    description,
-      //    status: 'pending',
-      //    createdAt: Date.now(),
-      // }
-
       const { data } = await entriesApi.post<Entry>('/entries', { description });
-
       dispatch({ type: '[Entry] - Add-Entry', payload: data });
    }
 
-   const updateEntry = (entry: Entry) => {
-      dispatch({ type: '[Entry] - Update-Entry', payload: entry });
+   const updateEntry = async ({ _id, description, status }: Entry) => {
+      
+      try {
+         const { data } = await entriesApi.put<Entry>(`/entries/${ _id }`, { description: description, status });
+         dispatch({ type: '[Entry] - Update-Entry', payload: data });
+      } catch (e) {
+         console.log({e});
+      }
    }
 
    const refreshEntries = async () => {
