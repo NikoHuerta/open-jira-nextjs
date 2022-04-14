@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import { Model, Schema } from 'mongoose';
 import { Entry } from '../interfaces';
 
-interface IEntry extends Entry{ };
+export interface IEntry extends Entry{ };
 
 const entrySchema = new Schema({
     description: {
@@ -17,7 +17,8 @@ const entrySchema = new Schema({
         enum: {
             values: ['pending', 'in-progress', 'finished'],
             message: '{VALUE} no es un estado permitido',
-        }
+        },
+        default: 'pending',
     }
 });
 
